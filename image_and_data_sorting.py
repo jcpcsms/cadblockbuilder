@@ -22,8 +22,8 @@ def copy_images_if_match(source_folder, target_folder, reference_folder):
 
 # Define your folders
 reference_folder = 'obj_train_data' #this should be the folder with the annotation data
-source_folder = 'work' #this is the original directory containing all images
-target_folder = 'Images' #this is the new directory we will make to keep the images with matching annotation data
+source_folder = 'work' 
+target_folder = 'Images' 
 
 # Run the function
 try:
