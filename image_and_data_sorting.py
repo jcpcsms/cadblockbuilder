@@ -5,14 +5,14 @@ import os
 import shutil
 
 def copy_images_if_match(source_folder, target_folder, reference_folder):
-    # Get a list of file names in the reference folder
+    #get a list of file names in the reference folder
     reference_files = [f for f in os.listdir(reference_folder) if os.path.isfile(os.path.join(reference_folder, f))]
     
-    # Loop through each file in the source folder
+    #loop through each file in the source folder
     for filename in os.listdir(source_folder):
         source_file_path = os.path.join(source_folder, filename)
 
-        # Check if it's an image file - update extentions list if needed
+        #check if it's an image file - update extentions list if needed
         if os.path.isfile(source_file_path) and filename.lower().endswith(('.png', '.jpg', '.jpeg', '.gif', '.bmp')):
             # Check if any reference file name is in the current filename
             if any(ref_file.lower().replace('.txt', '') in filename.lower() for ref_file in reference_files):
@@ -20,12 +20,12 @@ def copy_images_if_match(source_folder, target_folder, reference_folder):
                 shutil.copy(source_file_path, target_folder)
                 print(f'Copied: {filename}')
 
-# Define your folders
+#Define your folders
 reference_folder = 'obj_train_data' #this should be the folder with the annotation data
 source_folder = 'work' 
 target_folder = 'Images' 
 
-# Run the function
+#Run the function
 try:
     copy_images_if_match(source_folder, target_folder, reference_folder)
 
