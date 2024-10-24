@@ -22,7 +22,7 @@ def open_file_dialog():
 def load_image(file_path):
     global annotated_image, boxes_info
     try:
-        results = model(source=file_path, show=False, conf=0.40)
+        results = model(source=file_path, show=False, conf=0.40, imgsz=640, dynamic=True, optimize=True)
         display_result(results)  
         save_button.pack(pady=5)    
     except Exception as e:
@@ -51,10 +51,23 @@ def display_result(results):
             text = f"{label_name}: {conf:.2f}"
             cv2.putText(annotated_image, text, (x1, y1 - 5), cv2.FONT_HERSHEY_SIMPLEX, 0.8, color, 2)
             Results_list.append(f"{index}. {label_name} (Confidence: {conf:.2f})")
-
+        
+# Get the original image dimensions
+        height, width = annotated_image.shape[:2]
+        
+# Desired maximum dimensions for display
+        max_width = 800
+        max_height = 800
+        
+# set scale factor to preserve image geometry
+        scale_factor = min(max_width / width, max_height / height)
+        new_width = int(width * scale_factor)
+        new_height = int(height * scale_factor)
+        annotated_image = cv2.resize(annotated_image, (new_width, new_height))
         show_image(annotated_image)
-        #clear results for next image scan
-        results_textbox.delete(1.0, ctk.END)  
+
+# clear results for next image scan
+        results_textbox.delete(1.0, ctk.END) 
         results_textbox.insert(ctk.END, "\n".join(Results_list)) 
 
 # Function to show image after scan
@@ -77,8 +90,7 @@ def save_image():
     else:
         messagebox.showwarning("Nothing new to save. Try again.")
 
-
-# Set up the main window
+# main window
 ctk.set_appearance_mode("dark")
 ctk.set_default_color_theme("dark-blue")
 root = ctk.CTk()
@@ -97,10 +109,8 @@ load_button.pack(pady=10)
 # Create a button to save the updated after a scan
 save_button = ctk.CTkButton(root, text="Save Annotated Image", command=save_image)
 
-
 # List results as text
 results_textbox = ctk.CTkTextbox(root, width=400, height=200)
 results_textbox.pack(pady=5)
 
 root.mainloop()
-
