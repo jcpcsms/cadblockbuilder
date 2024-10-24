@@ -51,6 +51,7 @@ def display_result(results):
             text = f"{label_name}: {conf:.2f}"
             cv2.putText(annotated_image, text, (x1, y1 - 5), cv2.FONT_HERSHEY_SIMPLEX, 0.8, color, 2)
             Results_list.append(f"{index}. {label_name} (Confidence: {conf:.2f})")
+            # Later we will pass this list into the AutoLisp API to help generate our CAD Block from this output
         
 # Get the original image dimensions
         height, width = annotated_image.shape[:2]
