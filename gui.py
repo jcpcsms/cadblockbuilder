@@ -17,12 +17,13 @@ def open_file_dialog():
     file_path = filedialog.askopenfilename(filetypes=[("Image files", "*.jpg;*.jpeg;*.png;*.bmp")])
     if file_path:
         load_image(file_path)
-     
+    return file_path
+      
 # Load image to scan function
 def load_image(file_path):
     global annotated_image, boxes_info
     try:
-        results = model(source=file_path, show=False, conf=0.40, imgsz=640, dynamic=True, optimize=True)
+        results = model(source=file_path, show=False, imgsz=640, conf=0.40, dynamic=True, optimize=True)
         display_result(results)  
         save_button.pack(pady=5)    
     except Exception as e:
@@ -51,7 +52,6 @@ def display_result(results):
             text = f"{label_name}: {conf:.2f}"
             cv2.putText(annotated_image, text, (x1, y1 - 5), cv2.FONT_HERSHEY_SIMPLEX, 0.8, color, 2)
             Results_list.append(f"{index}. {label_name} (Confidence: {conf:.2f})")
-            # Later we will pass this list into the AutoLisp API to help generate our CAD Block from this output
         
 # Get the original image dimensions
         height, width = annotated_image.shape[:2]
@@ -90,7 +90,7 @@ def save_image():
             messagebox.showinfo(f"Image saved to {save_path}")
     else:
         messagebox.showwarning("Nothing new to save. Try again.")
-
+        
 # main window
 ctk.set_appearance_mode("dark")
 ctk.set_default_color_theme("dark-blue")
