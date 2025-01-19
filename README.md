@@ -17,5 +17,6 @@ Configure the .yaml file in this project to match your directories path.
 
 run training.py *consider running single epoch before the 50 epochs on the file. 
 
+Dataset used in this project is self generated imagery from Audiovisual Providers, Crestron, Extron, QSC, RDL Labs. 
 
 
